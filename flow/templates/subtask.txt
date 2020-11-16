@@ -1,14 +1,11 @@
-def dag_{{ dag_name }}(dag_id, default_args, dag_args):
   {% set operator_variable_name = name %}
-  {{ operator_variable_name }} = {{ type }}(
+{{ operator_variable_name }} = {{ type }}(
   {% for (arg_name, arg_value) in args.items() %}
-      {{ arg_name }} = {{ arg_value }},
+    {{ arg_name }} = {{ arg_value }},
   {% endfor %}
       dag = dag)
 
   {% for upstream_operator_name in dependencies %}
   {% set upstream_variable_name = upstream_operator_name %}
-  {{ upstream_variable_name }} >> {{ operator_variable_name }}
+{{ upstream_variable_name }} >> {{ operator_variable_name }}
   {% endfor %}
-  return dag
-

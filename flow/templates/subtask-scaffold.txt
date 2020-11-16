@@ -1,0 +1,5 @@
+def dag_{{ name }}(dag_id, default_args, dag_args):
+  {% for task in tasks %}
+{{ task }}
+  {% endfor %}
+  return dag
