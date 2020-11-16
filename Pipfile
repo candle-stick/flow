@@ -1,0 +1,31 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+jupyterlab = "*"
+networkx = "*"
+lxml = "*"
+pyyaml = "*"
+dpcontracts = "*"
+dataclasses = "*"
+click = "*"
+flow = {editable = true, path = "."}
+nbdev = "*"
+jupyterlab-git = "*"
+ipywidgets = "*"
+iplantuml = "*"
+
+[packages]
+networkx = "*"
+graphviz = "*"
+pydot = "*"
+lxml = "*"
+pyyaml = "*"
+dpcontracts = "*"
+dataclasses = "*"
+click = "*"
+
+[requires]
+python_version = "3.6"

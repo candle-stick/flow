@@ -1,0 +1,23 @@
+task_types:
+    ssh:
+        operator:
+            BashOperator:
+                bash_command: sleep
+                retries: 3
+        imports:
+            airflow.operators.bash_operator: [BashOperator]
+            
+    bash:
+        operator:
+            BashOperator:
+                bash_command: sleep
+                retries: 3
+        imports:
+            airflow.operators.bash_operator: [BashOperator]
+
+    sub-task:
+        operator:
+            SubDagOperator:
+                retries: 3
+        imports:
+            airflow.operators.subdag_operator: [SubDagOperator]

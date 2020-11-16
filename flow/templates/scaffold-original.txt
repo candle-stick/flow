@@ -1,0 +1,45 @@
+# -*- coding: utf-8 -*-
+#
+# This file was auto-generated at {{ build_time }} by {{ library_name }}, version {{ library_version }}.
+#
+#                           DO NOT EDIT!
+#
+# The configuration that generated this DAG was:
+#   filename: {{ metadata.filename }}
+#       date: {{ build_time }}
+#        md5: {{ config_md5 }}
+#
+# The configuration contents are below:
+###############################################################################
+{{ metadata.yaml_config | comment }}
+###############################################################################
+#
+
+import os
+import re
+from airflow import DAG
+
+{% for module in imports.modules %}
+import {{module}}
+{% endfor %}
+
+{% for (module, objects) in imports.objects.items() %}
+{% if '*' in objects %}
+from {{ module }} import *
+{% else %}
+from {{ module }} import {{ ', '.join(objects) }}
+{% endif %}
+{% endfor %}
+
+DEFAULT_TASK_ARGS = {
+{% for (arg_name, arg_value) in default_task_args.items() %}
+        '{{ arg_name }}': {{ arg_value | format_value }},
+{% endfor %}
+    }
+
+dag = DAG(
+{% for (arg_name, arg_value) in dag_args.items() %}
+        {{ arg_name }} = {{ arg_value | format_value }},
+{% endfor %}
+        default_args = DEFAULT_TASK_ARGS,
+    )

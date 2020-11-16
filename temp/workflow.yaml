@@ -1,0 +1,71 @@
+name: example-dag
+
+default_args:
+    owner: "'airflow'" 
+    depends_on_past: False
+    start_date: datetime(2018, 5, 26)
+    retries: 1
+    retry_delay: timedelta(minutes=5)
+    
+dag_args:
+    description: "'An example DAG'"
+    schedule_interval: "'@daily'"
+    
+tasks:
+    task1:
+      dependencies: []
+      type: ssh
+      parameters:
+        bash_command: sleep
+        retries: 3
+        
+    task2:
+      dependencies: [task1]
+      type: ssh
+      parameters: 
+        bash_command: sleep
+        retries: 3 
+        
+    task3:
+      dependencies: [task2]
+      type: ssh
+      parameters:
+        bash_command: sleep
+        retries: 3
+        
+    task4:
+        dependencies: [task3]
+        type: sub-task
+        parameters: {}
+        
+subtasks:
+    
+    snapshot-entity1:
+        task1:
+          dependencies: []
+          type: ssh
+          parameters:
+            bash_command: sleep
+            retries: 3
+
+        task2:
+          dependencies: [task1]
+          type: ssh
+          parameters: 
+            bash_command: sleep
+            retries: 3 
+
+    delta-entity1:
+        task1:
+          dependencies: []
+          type: ssh
+          parameters:
+            bash_command: sleep
+            retries: 3
+
+        task2:
+          dependencies: [task1]
+          type: ssh
+          parameters: 
+            bash_command: sleep
+            retries: 3 

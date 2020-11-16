@@ -1,0 +1,18 @@
+types:
+    ssh:
+        operator:
+            BashOperator:
+                task_id: sleep
+                bash_command: sleep
+                retries: 3
+        imports:
+            airflow.operators.bash_operator: [BashOperator]
+            
+    bash:
+        operator:
+            BashOperator:
+                task_id: sleep
+                bash_command: sleep
+                retries: 3
+        imports:
+            airflow.operators.bash_operator: [BashOperator]

@@ -1,0 +1,13 @@
+{% set operator_variable_name = name %}
+{{ operator_variable_name }} = {{ type }}(
+    task_id = "{{ operator_variable_name }}",
+{% for (arg_name, arg_value) in args.items() %}
+    {{ arg_name }} = {{ arg_value }},
+{% endfor %}
+    dag = dag
+)
+
+{% for upstream_operator_name in dependencies %}
+{% set upstream_variable_name = upstream_operator_name %}
+{{ upstream_variable_name }} >> {{ operator_variable_name }}
+{% endfor %}

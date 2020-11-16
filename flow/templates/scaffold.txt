@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+
+
+import os
+import re
+from airflow import DAG
+
+{% for (module, objects) in imports.items() %}
+{% if objects %}
+from {{ module }} import {{ ', '.join(objects)}}
+{% else %}
+import {{ module }}
+{% endif %}
+{% endfor %}
+
+DEFAULT_ARGS = {
+{% for (key, value) in default_args.items() %}
+    {{ key }}: {{ value }},
+{% endfor %}
+}
+
+dag = DAG(
+    default_args = DEFAULT_ARGS,
+{% for (arg_name, arg_value) in dag_args.items() %}
+    {{ arg_name }} = {{ arg_value }},
+{% endfor %}
+)
