@@ -3,7 +3,7 @@
   {% for (arg_name, arg_value) in args.items() %}
     {{ arg_name }} = {{ arg_value }},
   {% endfor %}
-      dag = dag)
+    dag = dag)
 
   {% for upstream_operator_name in dependencies %}
   {% set upstream_variable_name = upstream_operator_name %}

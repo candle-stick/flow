@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
-import os
-import re
 from airflow import DAG
 
 {% for (module, objects) in imports.items() %}
@@ -12,6 +9,8 @@ from {{ module }} import {{ ', '.join(objects)}}
 import {{ module }}
 {% endif %}
 {% endfor %}
+
+DAG_NAME = "{{ name }}"
 
 DEFAULT_ARGS = {
 {% for (key, value) in default_args.items() %}

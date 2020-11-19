@@ -4,6 +4,9 @@
 {% for (arg_name, arg_value) in args.items() %}
     {{ arg_name }} = {{ arg_value }},
 {% endfor %}
+{% if 'SubDagOperator' in type %}
+    subdag = dag_{{ name }}(DAG_NAME, "{{ name }}"),
+{% endif %}
     dag = dag
 )
 

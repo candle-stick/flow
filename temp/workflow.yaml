@@ -1,3 +1,22 @@
+###########################################################################################
+# Conventions
+# -----
+# Names: unique, lowercase, and separated by underscores
+# 
+# Dependencies
+# ------------
+# Upstream dependencies of task
+#
+# Type
+# ----
+# Task type. One of `ssh` and `subtask`. Will be mapped to pre-configured Airflow operator.
+#   - ssh 
+#         default type used to submit jobs to Amazon EMR cluster.
+#   - subtask 
+#         references a subworkflow or subdag. The name of a task with type `subtask` must
+#         match a subtask defined in the `subtasks` section.
+###########################################################################################
+
 name: example-dag
 
 default_args:
@@ -10,62 +29,54 @@ default_args:
 dag_args:
     description: "'An example DAG'"
     schedule_interval: "'@daily'"
-    
+
 tasks:
     task1:
       dependencies: []
       type: ssh
       parameters:
-        bash_command: sleep
-        retries: 3
+        retries: 4
         
     task2:
       dependencies: [task1]
       type: ssh
       parameters: 
-        bash_command: sleep
-        retries: 3 
+        retries: 4 
         
     task3:
       dependencies: [task2]
       type: ssh
       parameters:
-        bash_command: sleep
         retries: 3
         
-    task4:
+    snapshot_entity:
         dependencies: [task3]
-        type: sub-task
+        type: subtask
         parameters: {}
         
 subtasks:
-    
-    snapshot-entity1:
+    snapshot_entity:
         task1:
           dependencies: []
           type: ssh
           parameters:
-            bash_command: sleep
             retries: 3
 
         task2:
           dependencies: [task1]
           type: ssh
           parameters: 
-            bash_command: sleep
             retries: 3 
 
-    delta-entity1:
+    delta_entity:
         task1:
           dependencies: []
           type: ssh
           parameters:
-            bash_command: sleep
             retries: 3
 
         task2:
           dependencies: [task1]
           type: ssh
           parameters: 
-            bash_command: sleep
             retries: 3 

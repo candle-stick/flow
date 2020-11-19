@@ -1,5 +1,35 @@
-def dag_{{ name }}(dag_id, default_args, dag_args):
-  {% for task in tasks %}
-{{ task }}
-  {% endfor %}
-  return dag
+# -*- coding: utf-8 -*-
+
+from datetime import datetime, timedelta
+
+from airflow.models import Variable
+form airflow.utils.dates import days_ago
+from airflow import DAG
+
+{% for (module, objects) in imports.items() %}
+{% if objects %}
+from {{ module }} import {{ ', '.join(objects)}}
+{% else %}
+import {{ module }}
+{% endif %}
+{% endfor %}
+
+def dag_{{ name }}(dag_id):
+
+    DEFAULT_ARGS = {
+    {% for (key, value) in default_args.items() %}
+    {{ key }}: {{ value }},
+    {% endfor %}
+}
+
+    dag = DAG(
+        default_args = DEFAULT_ARGS,
+    {% for (arg_name, arg_value) in dag_args.items() %}
+    {{ arg_name }} = {{ arg_value }},
+    {% endfor %}
+)
+    
+{% for task in tasks %}
+  {{ task }}
+{% endfor %}
+    return dag

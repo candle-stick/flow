@@ -34,6 +34,9 @@ class Task:
                 "type": operator,
                 "args": args}
 
+    def imports(self):
+        return self.config.get('imports')
+
 # Cell
 @dataclass
 class WorkflowDefinition:

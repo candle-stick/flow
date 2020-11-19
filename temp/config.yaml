@@ -1,11 +1,15 @@
 task_types:
     ssh:
         operator:
-            BashOperator:
-                bash_command: sleep
+            SSHOperator:
+                ssh_hook: SSHHook(ssh_conn_id=dev_config["emr_con_id"])
+                command: "'some command'"
+                timeout: 30
                 retries: 3
+                retry_delay: timedelta(seconds=45)
         imports:
-            airflow.operators.bash_operator: [BashOperator]
+            airflow.contrib.operators.ssh_operator: [SSHOperator]
+            airflow.contrib.hooks: [SSHHook]
             
     bash:
         operator:
@@ -15,7 +19,7 @@ task_types:
         imports:
             airflow.operators.bash_operator: [BashOperator]
 
-    sub-task:
+    subtask:
         operator:
             SubDagOperator:
                 retries: 3
